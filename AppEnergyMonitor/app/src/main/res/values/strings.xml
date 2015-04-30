@@ -8,5 +8,8 @@
     <string name="button_view_usage">View App Energy Usage</string>
     <string name="title_activity_display_app_usage">DisplayAppUsage</string>
     <string name="check_app">Is this Acceptable</string>
+    <string name="app_memory_text">Memory Usage</string>
+    <string name="app_energy_text">Energy Consumed</string>
+    <string name="app_name_text">Process Name</string>
 
 </resources>
