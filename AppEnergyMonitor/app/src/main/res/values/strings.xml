@@ -7,6 +7,7 @@
     <string name="welcome_message">Manage your Battery Life!</string>
     <string name="button_view_usage">View App Energy Usage</string>
     <string name="title_activity_home_screen">Go To HomeScreen</string>
+    <string name="title_activity_CPUUsage">CPUUsage</string>
     <string name="title_activity_display_app_usage">DisplayAppUsage</string>
     <string name="title_activity_display_thresholds">DisplayThresholds</string>
     <string name="check_app">Is this Acceptable</string>

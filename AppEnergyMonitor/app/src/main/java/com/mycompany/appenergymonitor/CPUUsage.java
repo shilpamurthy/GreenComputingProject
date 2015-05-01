@@ -3,8 +3,11 @@ package com.mycompany.appenergymonitor;
 import android.app.Activity;
 import android.app.ActivityManager.*;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -12,36 +15,24 @@ import java.io.InputStreamReader;
 import java.lang.Exception;
 import java.lang.Process;
 import java.lang.Runtime;
+import java.lang.String;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class CPUUsage extends Activity {
+public class CPUUsage extends Activity{
 
-    public static String[] getStringInfo(){
+    static HashMap<String, ArrayList<AppInfo>> timeLog = new HashMap<String, ArrayList<AppInfo>>();
 
-        ArrayList<AppInfo> appi = CPUUsage.getInfo();
-        if(appi == null){
-            String[] s = {"No apps found"};
-            Log.i("NO APPSSSSS", "FOUNDDDDDD");
-            return s;
-        }
-        String[] appString = new String[appi.size()];
-        for(int i = 0; i < appi.size(); i++){
-            AppInfo ai = appi.get(i);
-            String s = "";
-            s += ai.getName();
-            s += "\t";
-            s += Integer.toString(ai.getCPUUse());
-            s += "\t";
-            s += Integer.toString(ai.getMemUse());
-            appString[i] = s;
-        }
-        return appString;
-    }
+    /*@Override
+    protected void onCreate(Bundle savedInstance){
+        app = this.getApplication();
+    }*/
 
-    public static ArrayList<AppInfo> getInfo(){
+
+    public static ArrayList<AppInfo> getInfo(Context context){
         ArrayList<AppInfo> result = new ArrayList<AppInfo>();
         try {
             Process p = Runtime.getRuntime().exec("top -n 1");
@@ -52,7 +43,23 @@ public class CPUUsage extends Activity {
                 //left it in for debugging
                 //Log.i("Line " + i + " = ", line);
                 if (i >= 7){
-                    result.add(getAppInfo(line));
+                    AppInfo newApp = getAppInfo(line, context);
+                    String name = newApp.getName();
+                    if(!name.equalsIgnoreCase("none")) {
+                        result.add(newApp);
+
+                        ArrayList<AppInfo> appLog;
+                        if (timeLog.containsKey(name)) {
+                            appLog = timeLog.get(name);
+
+                            if (appLog.size() == 20)
+                                appLog.remove(0);
+                        } else {
+                            appLog = new ArrayList<AppInfo>();
+                        }
+                        appLog.add(newApp);
+                        timeLog.put(name, appLog);
+                    }
                 }
                 line = reader.readLine();
                 i++;
@@ -69,7 +76,7 @@ public class CPUUsage extends Activity {
         }
     }
 
-    public static AppInfo getAppInfo(String line){
+    public static AppInfo getAppInfo(String line, Context context){
         //Log.i("Line: ", line);
         String[] toks = line.split(" +");
         /*Log.i("Whole line: ", line);
@@ -80,9 +87,22 @@ public class CPUUsage extends Activity {
         int cpupercent = Integer.parseInt(cp.substring(0, cp.length() - 1));
         int memUse = 0;
         String name = toks[toks.length - 1];
+
+        Log.i("CONTEXT IS NULL?:", Boolean.toString(context == null));
+        PackageManager packageManager = context.getPackageManager();
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = packageManager.getApplicationInfo(name.trim(), 0);
+        }
+        catch (final PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String title = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "None");
+
         int pid = 0;// Integer.parseInt(toks[0]);
-        AppInfo appi = new AppInfo(cpupercent, memUse, name, pid);
+        AppInfo appi = new AppInfo(cpupercent, memUse, title, pid);
         return appi;
     }
 
 }
+

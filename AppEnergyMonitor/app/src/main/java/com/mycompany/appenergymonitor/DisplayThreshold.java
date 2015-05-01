@@ -5,6 +5,7 @@ package com.mycompany.appenergymonitor;
  */
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,9 +20,9 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class DisplayThreshold extends Activity implements AdapterView.OnItemClickListener {
-
-    ArrayList<AppInfo> appInfo = CPUUsage.getInfo();//{"app name"};//new String[1];
+public class DisplayThreshold extends ActionBarActivity implements AdapterView.OnItemClickListener {
+    Context context;
+    ArrayList<AppInfo> appInfo;//{"app name"};//new String[1];
     ListView listViewApps;
 
     @Override
@@ -30,10 +31,13 @@ public class DisplayThreshold extends Activity implements AdapterView.OnItemClic
         Log.d("STARTING", "NOW");
         setContentView(R.layout.activity_display_thresholds);
         Log.d("appInfo = ", "" + this.appInfo);
+        context = this.getApplicationContext();
+        appInfo = CPUUsage.getInfo(context);
         listViewApps = (ListView) findViewById(R.id.list_thresholds);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
         listViewApps.setOnItemClickListener(this);
+
 
     }
 

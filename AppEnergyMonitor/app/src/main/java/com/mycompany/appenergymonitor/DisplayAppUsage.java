@@ -2,6 +2,7 @@ package com.mycompany.appenergymonitor;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,30 +13,37 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.app.Application;
 
 import java.util.ArrayList;
 
 
-public class DisplayAppUsage extends Activity implements AdapterView.OnItemClickListener {
+public class DisplayAppUsage extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-    ArrayList<AppInfo> appInfo = CPUUsage.getInfo();//{"app name"};//new String[1];
+    Context context;
+    ArrayList<AppInfo> appInfo;//{"app name"};//new String[1];
     ListView listViewApps;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("STARTING", "NOW");
         setContentView(R.layout.activity_display_app_usage);
         Log.d("appInfo = ", "" + this.appInfo);
+        context = this.getApplicationContext();
+        appInfo = CPUUsage.getInfo(context);
         listViewApps = (ListView) findViewById(R.id.list_apps);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
         listViewApps.setOnItemClickListener(this);
 
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("click", "click");
+        Log.i("click", ""+position);
     }
 
     @Override
