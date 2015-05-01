@@ -18,12 +18,14 @@ public class AppInfo {
     private int memUse;
     private String name;
     private int pid;
+    private boolean isAboveThreshHold;
 
-    public AppInfo(int c, int m, String n, int p){
+    public AppInfo(int c, int m, String n, int p, boolean i){
         this.CPUUse = c;
         this.memUse = m;
         this.name = n;
         this.pid = p;
+        this.isAboveThreshHold = i;
     }
 
     public void setCPUUse(int cpuUse){
@@ -42,6 +44,10 @@ public class AppInfo {
         this.pid = pid;
     }
 
+    public void setIsAboveThreshold(boolean i){
+        this.isAboveThreshHold = i;
+    }
+
     public int getCPUUse() {
         return CPUUse;
     }
@@ -56,5 +62,9 @@ public class AppInfo {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isAboveThreshHold(){
+        return isAboveThreshHold;
     }
 }

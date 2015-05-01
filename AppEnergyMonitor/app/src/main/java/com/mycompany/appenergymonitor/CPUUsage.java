@@ -100,7 +100,8 @@ public class CPUUsage extends Activity{
         String title = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "None");
 
         int pid = 0;// Integer.parseInt(toks[0]);
-        AppInfo appi = new AppInfo(cpupercent, memUse, title, pid);
+        boolean i = Threshold.isAboveThreshold(name);
+        AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
         return appi;
     }
 
