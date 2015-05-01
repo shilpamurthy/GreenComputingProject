@@ -3,7 +3,8 @@
     <color name="red">#FF0000</color>
     <color name="orange">#FF7D00</color>
     <color name="yellow">#FFFF00</color>
-    <color name="green">#00FF00</color>
+    <color name="green">#FF669900</color>
     <color name="blue">#00B4FF</color>
     <color name="black">#000000</color>
+    <color name="gold">#CCAC00</color>
 </resources>

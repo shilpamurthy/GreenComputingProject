@@ -20,6 +20,10 @@
             android:name=".DisplayAppUsage"
             android:label="@string/title_activity_display_app_usage" >
         </activity>
+        <activity
+            android:name=".DisplayThreshold"
+            android:label="@string/title_activity_display_thresholds" >
+        </activity>
     </application>
 
 </manifest>

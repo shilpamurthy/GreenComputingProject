@@ -7,14 +7,22 @@
         android:textSize="@dimen/abc_text_size_display_3_material"
         android:textColor="@color/green"
         android:gravity="center"
-        android:layout_weight="0.5"
+        android:layout_weight="0.4"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:hint="@string/welcome_message" />
     <Button
-        android:onClick="viewEnergyUsage"
-        android:layout_weight="0.5"
+        android:background="@color/green"
+        android:onClick="viewUsage"
+        android:layout_weight="0.3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/button_view_usage" />
+    <Button
+        android:background="@color/gold"
+        android:onClick="viewThreshold"
+        android:layout_weight="0.3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/button_view_thresholds" />
 </LinearLayout>

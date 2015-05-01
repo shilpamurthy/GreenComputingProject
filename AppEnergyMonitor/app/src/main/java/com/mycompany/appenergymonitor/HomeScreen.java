@@ -39,9 +39,13 @@ public class HomeScreen extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void viewEnergyUsage(View view){
+    public void viewUsage(View view){
         Intent intent = new Intent(this, DisplayAppUsage.class);
         startActivity(intent);
     }
 
+    public void viewThreshold(View view){
+        Intent intent = new Intent(this, DisplayThreshold.class);
+        startActivity(intent);
+    }
 }

@@ -1,5 +1,8 @@
 package com.mycompany.appenergymonitor;
 
+/**
+ * Created by Vikram on 4/30/15.
+ */
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -16,17 +19,18 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class DisplayAppUsage extends Activity implements AdapterView.OnItemClickListener {
+public class DisplayThreshold extends Activity implements AdapterView.OnItemClickListener {
 
     ArrayList<AppInfo> appInfo = CPUUsage.getInfo();//{"app name"};//new String[1];
     ListView listViewApps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("STARTING", "NOW");
-        setContentView(R.layout.activity_display_app_usage);
+        setContentView(R.layout.activity_display_thresholds);
         Log.d("appInfo = ", "" + this.appInfo);
-        listViewApps = (ListView) findViewById(R.id.list_apps);
+        listViewApps = (ListView) findViewById(R.id.list_thresholds);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
         listViewApps.setOnItemClickListener(this);
@@ -41,7 +45,7 @@ public class DisplayAppUsage extends Activity implements AdapterView.OnItemClick
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_display_app_usage, menu);
+        getMenuInflater().inflate(R.menu.menu_display_app_threshold, menu);
         return true;
     }
 
@@ -65,3 +69,4 @@ public class DisplayAppUsage extends Activity implements AdapterView.OnItemClick
         startActivity(intent);
     }
 }
+
