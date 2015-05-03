@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3a3cb724-ad40-4a2a-a61b-052e480256b9" name="Default" comment="" />
+    <list default="true" id="3a3cb724-ad40-4a2a-a61b-052e480256b9" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java" afterPath="$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java" />
+    </list>
     <ignored path="GreenComputingProject.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,14 +25,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CPUUsage.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="CPUUsage.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="964" max-vertical-offset="1710">
-              <caret line="78" column="50" selection-start-line="78" selection-start-column="50" selection-end-line="78" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.5217391" vertical-offset="660" max-vertical-offset="1920">
+              <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#762#790#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AppInfo.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/AppInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -45,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HomeScreen.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="HomeScreen.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/HomeScreen.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -181,8 +194,8 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java" />
         <option value="$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/HomeScreen.java" />
+        <option value="$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java" />
       </list>
     </option>
   </component>
@@ -597,16 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="964" max-vertical-offset="1710">
-          <caret line="78" column="50" selection-start-line="78" selection-start-column="50" selection-end-line="78" selection-end-column="50" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/ListAppsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
@@ -618,8 +621,27 @@
     <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/HomeScreen.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="780">
+          <caret line="29" column="64" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/AppInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="716">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5217391" vertical-offset="660" max-vertical-offset="1920">
+          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#762#790#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

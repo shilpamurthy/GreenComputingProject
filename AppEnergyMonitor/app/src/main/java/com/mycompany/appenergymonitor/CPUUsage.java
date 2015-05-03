@@ -13,6 +13,7 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.Exception;
+import java.lang.Integer;
 import java.lang.Process;
 import java.lang.Runtime;
 import java.lang.String;
@@ -39,6 +40,8 @@ public class CPUUsage extends Activity{
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = reader.readLine();
             int i = 0;
+            int[] pidsForMem = new pidsForMem();
+            int counterMem = 0;
             while (line != null) {
                 //left it in for debugging
                 //Log.i("Line " + i + " = ", line);
@@ -59,11 +62,20 @@ public class CPUUsage extends Activity{
                         }
                         appLog.add(newApp);
                         timeLog.put(name, appLog);
+                        pidsForMem[counterMem] = newApp.getPid();
+                        counterMem++;
                     }
                 }
                 line = reader.readLine();
                 i++;
             }
+
+            ActivityManager localActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+            Debug.MemoryInfo[] procsMemInfo = localActivityManager.getProcessMemoryInfo(pidsForMem);
+
+            for (int j = 0; j < procsMemInfo.length; j++)
+                (result.get(i)).setMemUse(procsMemInfo[j]);
+
             p.waitFor();
             return result;
         }
@@ -98,8 +110,9 @@ public class CPUUsage extends Activity{
             e.printStackTrace();
         }
         String title = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "None");
-
-        int pid = 0;// Integer.parseInt(toks[0]);
+        String prePid = toks[0];
+        String digits = prePid.replaceAll("[^0-9]", "");
+        int pid = Integer.parseInt(digits);
         boolean i = Threshold.isAboveThreshold(name);
         AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
         return appi;
