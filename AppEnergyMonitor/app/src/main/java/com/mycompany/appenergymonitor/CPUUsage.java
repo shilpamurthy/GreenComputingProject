@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -33,14 +34,14 @@ public class CPUUsage extends Activity{
     }*/
 
 
-    public static ArrayList<AppInfo> getInfo(Context context){
+    public static ArrayList<AppInfo> getInfo(Context context, ActivityManager localActivityManager){
         ArrayList<AppInfo> result = new ArrayList<AppInfo>();
         try {
             Process p = Runtime.getRuntime().exec("top -n 1");
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = reader.readLine();
             int i = 0;
-            int[] pidsForMem = new pidsForMem();
+            int[] pidsForMem = new int[100];
             int counterMem = 0;
             while (line != null) {
                 //left it in for debugging
@@ -48,6 +49,7 @@ public class CPUUsage extends Activity{
                 if (i >= 7){
                     AppInfo newApp = getAppInfo(line, context);
                     String name = newApp.getName();
+                    Log.i("name: ", name);
                     if(!name.equalsIgnoreCase("none")) {
                         result.add(newApp);
 
@@ -70,11 +72,10 @@ public class CPUUsage extends Activity{
                 i++;
             }
 
-            ActivityManager localActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
             Debug.MemoryInfo[] procsMemInfo = localActivityManager.getProcessMemoryInfo(pidsForMem);
 
             for (int j = 0; j < procsMemInfo.length; j++)
-                (result.get(i)).setMemUse(procsMemInfo[j]);
+                (result.get(i)).setMemUse(procsMemInfo[j].getTotalPss());
 
             p.waitFor();
             return result;
@@ -83,7 +84,62 @@ public class CPUUsage extends Activity{
             e.printStackTrace();
             Log.i("NO APPSSSSS", "FOUNDDDDDD");
             ArrayList<AppInfo> a = new ArrayList<AppInfo>();
-            a.add(new AppInfo(1,1,"hi",1));
+            a.add(new AppInfo(1,1,"hi",1, false));
+            return a;
+        }
+    }
+
+
+    public static ArrayList<AppInfo> getThresholded(Context context, ActivityManager localActivityManager){
+        ArrayList<AppInfo> result = new ArrayList<AppInfo>();
+        try {
+            Process p = Runtime.getRuntime().exec("top -n 1");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = reader.readLine();
+            int i = 0;
+            int[] pidsForMem = new int[100];
+            int counterMem = 0;
+            while (line != null) {
+                //left it in for debugging
+                //Log.i("Line " + i + " = ", line);
+                if (i >= 7){
+                    AppInfo newApp = getAppInfo(line, context);
+                    String name = newApp.getName();
+                    if(!name.equalsIgnoreCase("none") && newApp.isAboveThreshHold()) {
+                        result.add(newApp);
+
+                        ArrayList<AppInfo> appLog;
+                        if (timeLog.containsKey(name)) {
+                            appLog = timeLog.get(name);
+
+                            if (appLog.size() == 20)
+                                appLog.remove(0);
+                        } else {
+                            appLog = new ArrayList<AppInfo>();
+                        }
+                        appLog.add(newApp);
+                        timeLog.put(name, appLog);
+                        pidsForMem[counterMem] = newApp.getPid();
+                        counterMem++;
+                    }
+                }
+                line = reader.readLine();
+                i++;
+            }
+
+            Debug.MemoryInfo[] procsMemInfo = localActivityManager.getProcessMemoryInfo(pidsForMem);
+
+            for (int j = 0; j < procsMemInfo.length; j++)
+                (result.get(i)).setMemUse(procsMemInfo[j].getTotalPss());
+
+            p.waitFor();
+            return result;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            Log.i("NO APPSSSSS", "FOUNDDDDDD");
+            ArrayList<AppInfo> a = new ArrayList<AppInfo>();
+            a.add(new AppInfo(1,1,"hi",1, false));
             return a;
         }
     }
@@ -113,7 +169,7 @@ public class CPUUsage extends Activity{
         String prePid = toks[0];
         String digits = prePid.replaceAll("[^0-9]", "");
         int pid = Integer.parseInt(digits);
-        boolean i = Threshold.isAboveThreshold(name);
+        boolean i = Threshold.isAboveThreshold(name, cpupercent);
         AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
         return appi;
     }

@@ -1,6 +1,7 @@
 package com.mycompany.appenergymonitor;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ public class DisplayAppUsage extends ActionBarActivity implements AdapterView.On
     Context context;
     ArrayList<AppInfo> appInfo;//{"app name"};//new String[1];
     ListView listViewApps;
+    ActivityManager localActivityManager;
 
 
     @Override
@@ -32,7 +34,8 @@ public class DisplayAppUsage extends ActionBarActivity implements AdapterView.On
         setContentView(R.layout.activity_display_app_usage);
         Log.d("appInfo = ", "" + this.appInfo);
         context = this.getApplicationContext();
-        appInfo = CPUUsage.getInfo(context);
+        localActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        appInfo = CPUUsage.getInfo(context, localActivityManager);
         listViewApps = (ListView) findViewById(R.id.list_apps);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
@@ -42,8 +45,9 @@ public class DisplayAppUsage extends ActionBarActivity implements AdapterView.On
     }
 
     @Override
+
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.i("click", ""+position);
+        Threshold.addParam(appInfo.get(position).getName(), appInfo.get(position).getCPUUse());
     }
 
     @Override

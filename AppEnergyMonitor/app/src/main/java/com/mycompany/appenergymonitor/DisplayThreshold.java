@@ -4,6 +4,7 @@ package com.mycompany.appenergymonitor;
  * Created by Vikram on 4/30/15.
  */
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ public class DisplayThreshold extends ActionBarActivity implements AdapterView.O
     Context context;
     ArrayList<AppInfo> appInfo;//{"app name"};//new String[1];
     ListView listViewApps;
+    ActivityManager localActivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class DisplayThreshold extends ActionBarActivity implements AdapterView.O
         setContentView(R.layout.activity_display_thresholds);
         Log.d("appInfo = ", "" + this.appInfo);
         context = this.getApplicationContext();
-        appInfo = CPUUsage.getInfo(context);
+        localActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        appInfo = CPUUsage.getThresholded(context, localActivityManager);
         listViewApps = (ListView) findViewById(R.id.list_thresholds);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
