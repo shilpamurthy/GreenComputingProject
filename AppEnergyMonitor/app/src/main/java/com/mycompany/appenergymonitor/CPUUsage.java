@@ -35,7 +35,7 @@ public class CPUUsage extends Activity{
     }*/
 
 
-    public static ArrayList<AppInfo> getInfo(Context context, ActivityManager localActivityManager){
+    public static ArrayList<AppInfo> getInfo(Context context, ActivityManager localActivityManager, long ratio){
         ArrayList<AppInfo> result = new ArrayList<AppInfo>();
         try {
             Process p = Runtime.getRuntime().exec("top -n 1");
@@ -145,7 +145,7 @@ public class CPUUsage extends Activity{
         }
     }
 
-    public static AppInfo getAppInfo(String line, Context context){
+    public static AppInfo getAppInfo(String line, Context context, long ratio){
         //Log.i("Line: ", line);
         String[] toks = line.split(" +");
         /*Log.i("Whole line: ", line);
@@ -156,6 +156,7 @@ public class CPUUsage extends Activity{
         int cpupercent = Integer.parseInt(cp.substring(0, cp.length() - 1));
         int memUse = 0;
         String name = toks[toks.length - 1];
+        cpupercent = (int) ratio*cpupercent;
 
         Log.i("CONTEXT IS NULL?:", Boolean.toString(context == null));
         PackageManager packageManager = context.getPackageManager();

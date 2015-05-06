@@ -28,8 +28,8 @@
       <file leaf-file-name="CPUUsage.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6913408" vertical-offset="2775" max-vertical-offset="3615">
-              <caret line="218" column="65" selection-start-line="218" selection-start-column="65" selection-end-line="218" selection-end-column="65" />
+            <state vertical-scroll-proportion="0.900838" vertical-offset="1125" max-vertical-offset="3630">
+              <caret line="118" column="48" selection-start-line="118" selection-start-column="48" selection-end-line="118" selection-end-column="48" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -491,8 +491,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AppEnergyMonitor/app/src/main/java/com/mycompany/appenergymonitor/CPUUsage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6913408" vertical-offset="2775" max-vertical-offset="3615">
-          <caret line="218" column="65" selection-start-line="218" selection-start-column="65" selection-end-line="218" selection-end-column="65" />
+        <state vertical-scroll-proportion="0.900838" vertical-offset="1125" max-vertical-offset="3630">
+          <caret line="118" column="48" selection-start-line="118" selection-start-column="48" selection-end-line="118" selection-end-column="48" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
