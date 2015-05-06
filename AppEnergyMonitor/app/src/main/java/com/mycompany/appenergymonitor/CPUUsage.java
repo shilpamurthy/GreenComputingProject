@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.os.BatteryManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -172,6 +173,62 @@ public class CPUUsage extends Activity{
         boolean i = Threshold.isAboveThreshold(name, cpupercent);
         AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
         return appi;
+    }
+
+    public long getEnergyFromLoad(){
+        BatteryManager bm = new BatterManager();
+        int firstP, secondP;
+        long firstE, secondE;
+        Process p = null;
+        p = Runtime.getRuntime().exec("top -n 1");
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line = reader.readLine();
+        int i = 0;
+        while (line != null) {
+            //left it in for debugging
+            //Log.i("Line " + i + " = ", line);
+            if (i == 3){
+                firstP = getCPUPercentage(line);
+            }
+            line = reader.readLine();
+            i++;
+        }
+
+        firstE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
+
+        Thread.sleep(5400000);
+
+        p = Runtime.getRuntime().exec("top -n 1");
+
+        reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        line = reader.readLine();
+        int i = 0;
+        while (line != null) {
+            //left it in for debugging
+            //Log.i("Line " + i + " = ", line);
+            if (i == 3){
+                secondP = getCPUPercentage(line);
+            }
+            line = reader.readLine();
+            i++;
+        }
+
+        secondE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
+
+        return (long)  ((firstE - secondE) / (firstP - secondP));
+
+    }
+
+
+    private String getCPUPercentage(String line) {
+        String[] toks = line.split(" +");
+        String user = toks[3];
+        String system = toks[5];
+        user = user.replaceAll("[^0-9]", "");
+        int userE = Integer.parseInt(user);
+        system = system.replaceAll("[^0-9]", "");
+        int systemE = Integer.parseInt(system);
     }
 
 }
