@@ -23,6 +23,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.*;
+import java.io.*;
 
 
 public class CPUUsage extends Activity{
@@ -52,6 +54,8 @@ public class CPUUsage extends Activity{
                     String name = newApp.getName();
                     Log.i("name: ", name);
                     if(!name.equalsIgnoreCase("none")) {
+                        boolean b = addToHistory(name, newApp.getCPUUse());
+                        newApp.setIsIncreasing(b);
                         result.add(newApp);
 
                         ArrayList<AppInfo> appLog;
@@ -232,6 +236,31 @@ public class CPUUsage extends Activity{
         }
 
         return (long)  ((firstE - secondE) / (firstP - secondP));
+
+    }
+
+    public static boolean addToHistory(String appName, int cpupercent){
+        String filename = appName+".txt";
+        FileWriter fw = new FileWriter (filename);
+        FileReader fr = new FileReader (filename);
+        BufferedReader reader = new BufferedReader(fr);
+        BufferedWriter writer = new BufferedWriter(fw);
+        Calendar c = Calendar.getInstance();
+        int seconds = c.get(Calendar.SECOND);
+        String line = reader.readLine();
+        if (line.equalsIgnoreCase("")){
+            writer.write(cpupercent + " " + seconds);
+            return false;
+        }
+        String[] energystats = line.split(" +");
+        int energyPercent = Integer.parseInt(energystats[0]);
+        int time = Integer.parseInt((energystats[1]));
+        writer.write(cpupercent + " " + seconds);
+        if (seconds - time > (24*60*60))
+            return false;
+
+        else
+            return cpupercent > energyPercent
 
     }
 

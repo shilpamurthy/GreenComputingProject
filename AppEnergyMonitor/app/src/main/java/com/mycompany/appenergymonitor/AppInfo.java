@@ -19,13 +19,14 @@ public class AppInfo {
     private String name;
     private int pid;
     private boolean isAboveThreshHold;
-
-    public AppInfo(int c, int m, String n, int p, boolean i){
+    private boolean isIncreasing;
+    public AppInfo(int c, int m, String n, int p, boolean i, boolean u){
         this.CPUUse = c;
         this.memUse = m;
         this.name = n;
         this.pid = p;
         this.isAboveThreshHold = i;
+        this.isIncreasing = u;
     }
 
     public void setCPUUse(int cpuUse){
@@ -48,6 +49,8 @@ public class AppInfo {
         this.isAboveThreshHold = i;
     }
 
+    public void setIsIncreasing (boolean u) {this.isIncreasing = u;}
+
     public int getCPUUse() {
         return CPUUse;
     }
@@ -67,4 +70,6 @@ public class AppInfo {
     public boolean isAboveThreshHold(){
         return isAboveThreshHold;
     }
+
+    public boolean getIsIncreasing (return isIncreasing;)
 }
