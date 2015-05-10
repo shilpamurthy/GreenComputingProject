@@ -46,9 +46,9 @@ public class CPUUsage extends Activity{
             int counterMem = 0;
             while (line != null) {
                 //left it in for debugging
-                //Log.i("Line " + i + " = ", line);
+                Log.i("Line " + i + " = ", line);
                 if (i >= 7){
-                    AppInfo newApp = getAppInfo(line, context);
+                    AppInfo newApp = getAppInfo(line, context, ratio);
                     String name = newApp.getName();
                     Log.i("name: ", name);
                     if(!name.equalsIgnoreCase("none")) {
@@ -75,8 +75,8 @@ public class CPUUsage extends Activity{
 
             Debug.MemoryInfo[] procsMemInfo = localActivityManager.getProcessMemoryInfo(pidsForMem);
 
-            for (int j = 0; j < procsMemInfo.length; j++)
-                (result.get(i)).setMemUse(procsMemInfo[j].getTotalPss());
+            for (int j = 0; j < result.size(); j++)
+                (result.get(j)).setMemUse(procsMemInfo[j].getTotalPss());
 
             p.waitFor();
             return result;
@@ -91,7 +91,7 @@ public class CPUUsage extends Activity{
     }
 
 
-    public static ArrayList<AppInfo> getThresholded(Context context, ActivityManager localActivityManager){
+    public static ArrayList<AppInfo> getThresholded(Context context, ActivityManager localActivityManager, long ratio){
         ArrayList<AppInfo> result = new ArrayList<AppInfo>();
         try {
             Process p = Runtime.getRuntime().exec("top -n 1");
@@ -104,7 +104,7 @@ public class CPUUsage extends Activity{
                 //left it in for debugging
                 //Log.i("Line " + i + " = ", line);
                 if (i >= 7){
-                    AppInfo newApp = getAppInfo(line, context);
+                    AppInfo newApp = getAppInfo(line, context, ratio);
                     String name = newApp.getName();
                     if(!name.equalsIgnoreCase("none") && newApp.isAboveThreshHold()) {
                         result.add(newApp);
@@ -130,8 +130,8 @@ public class CPUUsage extends Activity{
 
             Debug.MemoryInfo[] procsMemInfo = localActivityManager.getProcessMemoryInfo(pidsForMem);
 
-            for (int j = 0; j < procsMemInfo.length; j++)
-                (result.get(i)).setMemUse(procsMemInfo[j].getTotalPss());
+            for (int j = 0; j < result.size(); j++)
+                (result.get(j)).setMemUse(procsMemInfo[j].getTotalPss());
 
             p.waitFor();
             return result;
@@ -156,7 +156,7 @@ public class CPUUsage extends Activity{
         int cpupercent = Integer.parseInt(cp.substring(0, cp.length() - 1));
         int memUse = 0;
         String name = toks[toks.length - 1];
-        cpupercent = (int) ratio*cpupercent;
+        //cpupercent = (int) ratio*cpupercent;
 
         Log.i("CONTEXT IS NULL?:", Boolean.toString(context == null));
         PackageManager packageManager = context.getPackageManager();
@@ -165,64 +165,78 @@ public class CPUUsage extends Activity{
             applicationInfo = packageManager.getApplicationInfo(name.trim(), 0);
         }
         catch (final PackageManager.NameNotFoundException e) {
+            Log.i("IS THIS NULL:", Boolean.toString(applicationInfo==null));
             e.printStackTrace();
         }
+        Log.i("Package Manager?:", Boolean.toString(packageManager == null));
+        Log.i("applicationInfo IS NULL?:", Boolean.toString(applicationInfo == null));
         String title = (String)((applicationInfo != null) ? packageManager.getApplicationLabel(applicationInfo) : "None");
         String prePid = toks[0];
         String digits = prePid.replaceAll("[^0-9]", "");
-        int pid = Integer.parseInt(digits);
+        int pid;
+        if (digits.equalsIgnoreCase(""))
+           pid = 0;
+        else
+            pid = Integer.parseInt(digits);
         boolean i = Threshold.isAboveThreshold(name, cpupercent);
         AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
         return appi;
     }
 
-    public long getEnergyFromLoad(){
-        BatteryManager bm = new BatterManager();
-        int firstP, secondP;
+    public static long getEnergyFromLoad(){
+        BatteryManager bm = new BatteryManager();
+        long firstP, secondP;
         long firstE, secondE;
         Process p = null;
-        p = Runtime.getRuntime().exec("top -n 1");
+        firstE = secondE = 0;
+        firstP = 1;
+        secondP = 0;
+        try {
+            p = Runtime.getRuntime().exec("top -n 1");
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line = reader.readLine();
-        int i = 0;
-        while (line != null) {
-            //left it in for debugging
-            //Log.i("Line " + i + " = ", line);
-            if (i == 3){
-                firstP = getCPUPercentage(line);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = reader.readLine();
+            int i = 0;
+            while (line != null) {
+                //left it in for debugging
+                //Log.i("Line " + i + " = ", line);
+                if (i == 3) {
+                    firstP = getCPUPercentage(line);
+                }
+                line = reader.readLine();
+                i++;
             }
+
+            firstE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
+            Thread.sleep(60000);
+            p = Runtime.getRuntime().exec("top -n 1");
+
+            reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             line = reader.readLine();
-            i++;
-        }
-
-        firstE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
-
-        Thread.sleep(5400000);
-
-        p = Runtime.getRuntime().exec("top -n 1");
-
-        reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        line = reader.readLine();
-        int i = 0;
-        while (line != null) {
-            //left it in for debugging
-            //Log.i("Line " + i + " = ", line);
-            if (i == 3){
-                secondP = getCPUPercentage(line);
+            i = 0;
+            while (line != null) {
+                //left it in for debugging
+                //Log.i("Line " + i + " = ", line);
+                if (i == 3) {
+                    secondP = getCPUPercentage(line);
+                }
+                line = reader.readLine();
+                i++;
             }
-            line = reader.readLine();
-            i++;
-        }
 
-        secondE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
+            secondE = bm.BATTERY_PROPERTY_ENERGY_COUNTER;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         return (long)  ((firstE - secondE) / (firstP - secondP));
 
     }
 
 
-    private String getCPUPercentage(String line) {
+    private static int getCPUPercentage(String line) {
         String[] toks = line.split(" +");
         String user = toks[3];
         String system = toks[5];
@@ -230,6 +244,7 @@ public class CPUUsage extends Activity{
         int userE = Integer.parseInt(user);
         system = system.replaceAll("[^0-9]", "");
         int systemE = Integer.parseInt(system);
+        return systemE + userE;
     }
 
 }

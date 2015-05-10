@@ -16,6 +16,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.app.Application;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -30,18 +35,38 @@ public class DisplayAppUsage extends ActionBarActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("STARTING", "NOW");
+        Log.d("STARTING UP", "NOW");
         setContentView(R.layout.activity_display_app_usage);
         Log.d("appInfo = ", "" + this.appInfo);
         context = this.getApplicationContext();
         localActivityManager = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
-        appInfo = CPUUsage.getInfo(context, localActivityManager);
+        BufferedReader bufferedReader = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(new
+                    File(getFilesDir()+File.separator+"Ratio.txt")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String read;
+        StringBuilder builder = new StringBuilder("");
+
+        try {
+            while((read = bufferedReader.readLine()) != null){
+                builder.append(read);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long ratio = Long.parseLong(builder.toString());
+        Log.d("Output", builder.toString());
+        //long ratio = CPUUsage.getEnergyFromLoad();
+        Log.d("RATIO:", ""+ratio);
+        appInfo = CPUUsage.getInfo(context, localActivityManager, ratio);
         listViewApps = (ListView) findViewById(R.id.list_apps);
         ListAppsAdapter adapter = new ListAppsAdapter(this, appInfo);
         listViewApps.setAdapter(adapter);
         listViewApps.setOnItemClickListener(this);
-
-
     }
 
     @Override

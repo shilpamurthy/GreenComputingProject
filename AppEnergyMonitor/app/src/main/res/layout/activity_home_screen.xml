@@ -12,16 +12,23 @@
         android:layout_height="0dp"
         android:hint="@string/welcome_message" />
     <Button
+        android:background="@color/gold"
+        android:onClick="onCalibrate"
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/calibrate" />
+    <Button
         android:background="@color/green"
         android:onClick="viewUsage"
-        android:layout_weight="0.3"
+        android:layout_weight="0.25"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/button_view_usage" />
     <Button
         android:background="@color/gold"
         android:onClick="viewThreshold"
-        android:layout_weight="0.3"
+        android:layout_weight="0.25"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="@string/button_view_thresholds" />

@@ -15,5 +15,6 @@
     <string name="app_energy_text">Energy Consumed</string>
     <string name="app_name_text">Process Name</string>
     <string name="button_view_thresholds">View Current Thresholds</string>
+    <string name="calibrate">Calibrate your device!</string>
 
 </resources>

@@ -1,11 +1,16 @@
 package com.mycompany.appenergymonitor;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 
 public class HomeScreen extends ActionBarActivity {
@@ -47,5 +52,20 @@ public class HomeScreen extends ActionBarActivity {
     public void viewThreshold(View view){
         Intent intent = new Intent(this, DisplayThreshold.class);
         startActivity(intent);
+    }
+
+    public void onCalibrate(View view){
+        long rat = 1; //CPUUsage.getEnergyFromLoad();
+        if (rat<1) rat=1;
+        Context context = this.getApplicationContext();
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new
+                    File(getFilesDir() + File.separator + "Ratio.txt")));
+            bufferedWriter.write(Long.toString(rat));
+            bufferedWriter.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
