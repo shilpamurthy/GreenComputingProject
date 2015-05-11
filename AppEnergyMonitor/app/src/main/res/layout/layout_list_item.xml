@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:background="@color/black"
             android:orientation="horizontal" >
 
             <TextView
@@ -25,6 +26,7 @@
                 android:layout_weight="1"
                 android:text="@string/app_name_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -41,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/layout_app_name"
+            android:background="@color/black"
             android:orientation="horizontal" >
 
             <TextView
@@ -50,6 +53,7 @@
                 android:layout_weight="1"
                 android:text="@string/app_energy_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView
@@ -65,6 +69,7 @@
             android:id="@+id/layout_app_memory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/black"
             android:layout_below="@+id/layout_app_energy"
             android:orientation="horizontal" >
 
@@ -75,6 +80,7 @@
                 android:layout_weight="1"
                 android:text="@string/app_memory_text"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <TextView

@@ -20,6 +20,7 @@ public class AppInfo {
     private int pid;
     private boolean isAboveThreshHold;
     private boolean isIncreasing;
+
     public AppInfo(int c, int m, String n, int p, boolean i, boolean u){
         this.CPUUse = c;
         this.memUse = m;
@@ -71,5 +72,5 @@ public class AppInfo {
         return isAboveThreshHold;
     }
 
-    public boolean getIsIncreasing (return isIncreasing;)
+    public boolean getIsIncreasing() {return isIncreasing;}
 }

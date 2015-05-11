@@ -1,6 +1,7 @@
 package com.mycompany.appenergymonitor;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,17 @@ public class ListAppsAdapter extends BaseAdapter {
 
         AppInfo app = listApps.get(position);
         holder.txtName.setText(app.getName());
-        holder.txtEnergy.setText(Integer.toString(app.getCPUUse()));
+        holder.txtEnergy.setText(Integer.toString(app.getCPUUse())+" %");
         holder.txtMemory.setText(Integer.toString(app.getMemUse()));
+        if (app.getCPUUse() > 1/*app.getIsIncreasing()*/){
+            holder.txtName.setTextColor(Color.RED);
+            holder.txtEnergy.setTextColor(Color.RED);
+            holder.txtMemory.setTextColor(Color.RED);
+        } else{
+            holder.txtName.setTextColor(Color.GREEN);
+            holder.txtEnergy.setTextColor(Color.GREEN);
+            holder.txtMemory.setTextColor(Color.GREEN);
+        }
 
         return convertView;
     }

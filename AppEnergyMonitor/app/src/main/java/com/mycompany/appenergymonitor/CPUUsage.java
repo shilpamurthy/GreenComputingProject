@@ -89,7 +89,7 @@ public class CPUUsage extends Activity{
             e.printStackTrace();
             Log.i("NO APPSSSSS", "FOUNDDDDDD");
             ArrayList<AppInfo> a = new ArrayList<AppInfo>();
-            a.add(new AppInfo(1,1,"hi",1, false));
+            a.add(new AppInfo(1,1,"hi",1, false, false));
             return a;
         }
     }
@@ -144,7 +144,7 @@ public class CPUUsage extends Activity{
             e.printStackTrace();
             Log.i("NO APPSSSSS", "FOUNDDDDDD");
             ArrayList<AppInfo> a = new ArrayList<AppInfo>();
-            a.add(new AppInfo(1,1,"hi",1, false));
+            a.add(new AppInfo(1,1,"hi",1, false, false));
             return a;
         }
     }
@@ -179,11 +179,11 @@ public class CPUUsage extends Activity{
         String digits = prePid.replaceAll("[^0-9]", "");
         int pid;
         if (digits.equalsIgnoreCase(""))
-           pid = 0;
+            pid = 0;
         else
             pid = Integer.parseInt(digits);
         boolean i = Threshold.isAboveThreshold(name, cpupercent);
-        AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i);
+        AppInfo appi = new AppInfo(cpupercent, memUse, title, pid, i, i);
         return appi;
     }
 
@@ -240,28 +240,32 @@ public class CPUUsage extends Activity{
     }
 
     public static boolean addToHistory(String appName, int cpupercent){
-        String filename = appName+".txt";
-        FileWriter fw = new FileWriter (filename);
-        FileReader fr = new FileReader (filename);
-        BufferedReader reader = new BufferedReader(fr);
-        BufferedWriter writer = new BufferedWriter(fw);
-        Calendar c = Calendar.getInstance();
-        int seconds = c.get(Calendar.SECOND);
-        String line = reader.readLine();
-        if (line.equalsIgnoreCase("")){
+        try {
+            String filename = appName + ".txt";
+            FileWriter fw = new FileWriter(filename);
+            FileReader fr = new FileReader(filename);
+            BufferedReader reader = new BufferedReader(fr);
+            BufferedWriter writer = new BufferedWriter(fw);
+            Calendar c = Calendar.getInstance();
+            int seconds = c.get(Calendar.SECOND);
+            String line = reader.readLine();
+            if (line.equalsIgnoreCase("")) {
+                writer.write(cpupercent + " " + seconds);
+                return false;
+            }
+            String[] energystats = line.split(" +");
+            int energyPercent = Integer.parseInt(energystats[0]);
+            int time = Integer.parseInt((energystats[1]));
             writer.write(cpupercent + " " + seconds);
+            if (seconds - time > (24 * 60 * 60))
+                return false;
+
+            else
+                return cpupercent > energyPercent;
+        } catch (Exception e){
+            e.printStackTrace();
             return false;
         }
-        String[] energystats = line.split(" +");
-        int energyPercent = Integer.parseInt(energystats[0]);
-        int time = Integer.parseInt((energystats[1]));
-        writer.write(cpupercent + " " + seconds);
-        if (seconds - time > (24*60*60))
-            return false;
-
-        else
-            return cpupercent > energyPercent
-
     }
 
 
